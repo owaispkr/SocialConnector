@@ -7,7 +7,24 @@ import jwt_decode from "jwt-decode";
 export const registerUser = (userData, history) => (dispatch) => {
   axios
     .post("/api/users/register", userData)
-    .then((res) => history.push("/login"))
+    // .then((res) => history.push("/dashboard"))
+    .then((res) => {
+      // Save Token to Local Storage
+      const { token } = res.data;
+      localStorage.setItem("jwtToken", token);
+
+      //Set Token to authHeader
+      setAuthToken(token);
+
+      // Decode Token to get user Data
+      const decode = jwt_decode(token);
+
+      // Set Current User
+      dispatch(setCurrentUser(decode));
+
+      // REDIRECT TO DASHBOARD
+      history.push("/dashboard");
+    })
     .catch((err) =>
       dispatch({
         type: GET_ERRORS,

@@ -13,14 +13,13 @@ const InputGroup = ({
   disabled,
 }) => {
   return (
-    <div className="form-group">
+    <div className="input-group mb-3">
       <div className="input-group-prepend">
         <span className="input-group-text">
-          <i className={icon}></i>
+          <i className={icon} />
         </span>
       </div>
       <input
-        type={type}
         className={classnames("form-control form-control-sm", {
           "is-invalid": error,
         })}
@@ -28,7 +27,6 @@ const InputGroup = ({
         name={name}
         value={value}
         onChange={onChange}
-        disabled={disabled}
       />
       {error && <div className="invalid-feedback">{error}</div>}
     </div>

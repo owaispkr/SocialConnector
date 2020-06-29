@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
-import { createUserProfile } from "../../actions/profileActions";
+import isEmpty from "../../validation/is-empty";
+import {
+  createUserProfile,
+  getCurrentProfile,
+} from "../../actions/profileActions";
 
 // IMPORT FIELD COMPONENTS
 import TextFieldGroup from "../common/TextFieldGroup";
@@ -10,7 +14,7 @@ import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import InputGroup from "../common/InputGroup";
 
-class CreateProfile extends Component {
+class EditProfile extends Component {
   constructor() {
     super();
 
@@ -38,11 +42,60 @@ class CreateProfile extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps) {
+    if (nextProps.error) {
       this.setState({
         error: nextProps.error,
       });
     }
+
+    if (nextProps.profile.profile) {
+      const profile = nextProps.profile.profile;
+
+      // BRING SKILLS BACK TO CS
+      const skillsCS = profile.skills.join(",");
+
+      // VALIDATE PROFILE VALUES
+      profile.company = !isEmpty(profile.company) ? profile.company : "";
+      profile.website = !isEmpty(profile.website) ? profile.website : "";
+      profile.status = !isEmpty(profile.status) ? profile.status : "";
+      profile.bio = !isEmpty(profile.bio) ? profile.bio : "";
+
+      profile.social = !isEmpty(profile.social) ? profile.social : {};
+      profile.youtube = !isEmpty(profile.social.youtube)
+        ? profile.social.youtube
+        : "";
+      profile.facebook = !isEmpty(profile.social.facebook)
+        ? profile.social.facebook
+        : "";
+      profile.twitter = !isEmpty(profile.social.twitter)
+        ? profile.social.twitter
+        : "";
+      profile.linkedIn = !isEmpty(profile.social.linkedIn)
+        ? profile.social.linkedIn
+        : "";
+      profile.instagram = !isEmpty(profile.social.instagram)
+        ? profile.social.instagram
+        : "";
+
+      // SET COMPONENTS TO FIELD'S STATE
+      this.setState({
+        handle: profile.handle,
+        company: profile.company,
+        website: profile.website,
+        status: profile.status,
+        bio: profile.bio,
+        skills: skillsCS,
+        youtube: profile.youtube,
+        facebook: profile.facebook,
+        twitter: profile.twitter,
+        linkedIn: profile.linkedIn,
+        instagram: profile.instagram,
+      });
+    }
+  }
+
+  componentDidMount() {
+    this.props.getCurrentProfile();
   }
 
   onSubmit(e) {
@@ -136,9 +189,9 @@ class CreateProfile extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Create Profile</h1>
+              <h1 className="display-4 text-center">Edit Profile</h1>
               <p className="lead text-center">
-                Let's add some information to start with your profile
+                Let's add some information to your profile
               </p>
               <small className="d-block pb-3"> </small>
               <form onSubmit={this.onSubmit}>
@@ -149,6 +202,7 @@ class CreateProfile extends Component {
                   value={this.state.handle}
                   onChange={this.onChange}
                   error={error.handle}
+                  disabled="disabled"
                   info="A handle must be unique profile URL (This can't be CHANGED later)"
                 />
                 <SelectListGroup
@@ -221,7 +275,9 @@ class CreateProfile extends Component {
   }
 }
 
-CreateProfile.propTypes = {
+EditProfile.propTypes = {
+  createUserProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   error: PropTypes.object.isRequired,
 };
@@ -231,6 +287,7 @@ const mapStatesToProps = (state) => ({
   error: state.error,
 });
 
-export default connect(mapStatesToProps, { createUserProfile })(
-  withRouter(CreateProfile)
-);
+export default connect(mapStatesToProps, {
+  createUserProfile,
+  getCurrentProfile,
+})(withRouter(EditProfile));
