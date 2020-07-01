@@ -73,13 +73,13 @@ function App() {
                   {" "}
                   <Route exact path="/register" component={Register} />
                   <Route exact path="/login" component={Login} />
-                  {/* <Switch>
+                  <Switch>
                     <PrivateRoute
                       exact
                       path="/dashboard"
                       component={Dashboard}
                     />
-                  </Switch> */}
+                  </Switch>
                   <Switch>
                     <PrivateRoute
                       exact
@@ -94,13 +94,13 @@ function App() {
                       component={EditProfile}
                     />
                   </Switch>
-                  {/* <Switch>
+                  <Switch>
                     <PrivateRoute
                       exact
                       path="/profile/:handle"
                       component={ProfileHandle}
                     />
-                  </Switch> */}
+                  </Switch>
                 </div>
               </div>
             </div>
