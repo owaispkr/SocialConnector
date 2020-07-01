@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
-import { clearProfileOnLogout } from "../../actions/profileActions";
+import {
+  clearProfileOnLogout,
+  getCurrentProfile,
+} from "../../actions/profileActions";
 
 class Navbar extends Component {
   onLogoutClick(e) {
@@ -12,29 +15,53 @@ class Navbar extends Component {
     this.props.clearProfileOnLogout();
     this.props.logoutUser();
   }
+
+  componentDidMount() {
+    this.props.getCurrentProfile();
+  }
+
   render() {
     const { isAuthenticated, user } = this.props.auth;
+    const { profile, loading } = this.props.profile;
+    let profileHandle = "";
+    if (profile === null || loading) {
+      profileHandle = "";
+    } else {
+      profileHandle = profile.handle;
+    }
 
     const authLink = (
       <ul className="navbar-nav ml-auto">
-        <li className="nav-item">
-          <Link className="nav-link" to="/dashboard">
-            Dashboard
-          </Link>
-        </li>
         <a
+          className="nav-link   d-none d-sm-inline-block"
           href="/#"
-          className="nav-link"
-          onClick={this.onLogoutClick.bind(this)}
+          data-toggle="dropdown"
         >
           <img
-            className="rounded-circle"
+            className="avatar avatar-sm rounded-circle"
             src={user.avatar}
             alt={user.name}
-            style={{ width: "25px", marginRight: "5px" }}
-          />
-          Logout
+          />{" "}
+          <span className="mb-0 text-sm  font-weight-bold">{user.name}</span>
+          <i className="fas fa-angle-double-down pl-2"></i>
         </a>
+        <div
+          className="dropdown-menu dropdown-menu-right"
+          style={{ fontSize: ".875rem" }}
+        >
+          <a className="dropdown-item" href={`/profile/${profileHandle}`}>
+            <i className="far fa-user-circle" data-feather="user"></i> Profile
+          </a>
+          <div className="dropdown-divider"></div>
+          <a
+            href="/#"
+            className="dropdown-item"
+            onClick={this.onLogoutClick.bind(this)}
+          >
+            <i className="ni ni-user-run"></i>
+            <span>Logout</span>
+          </a>
+        </div>
       </ul>
     );
 
@@ -54,10 +81,13 @@ class Navbar extends Component {
     );
 
     return (
-      <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
-        <div className="container">
+      <nav
+        className="navbar navbar-top navbar-expand-md navbar-dark"
+        id="navbar-main"
+      >
+        <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            DevConnector
+            SocialConnector
           </Link>
           <button
             className="navbar-toggler"
@@ -67,18 +97,13 @@ class Navbar extends Component {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
+          <div className="input-group-append"></div>
 
-          <div className="collapse navbar-collapse" id="mobile-nav">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to="/profiles">
-                  {" "}
-                  Developers
-                </Link>
-              </li>
-            </ul>
-            {isAuthenticated ? authLink : guestLink}
-          </div>
+          <ul className="navbar-nav navbar-align">
+            <li className="nav-item dropdown">
+              {isAuthenticated ? authLink : guestLink}
+            </li>
+          </ul>
         </div>
       </nav>
     );
@@ -87,13 +112,18 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
   logoutUser: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
 };
 
 const mapStateProps = (state) => ({
   auth: state.auth,
+  profile: state.profile,
 });
 
-export default connect(mapStateProps, { logoutUser, clearProfileOnLogout })(
-  Navbar
-);
+export default connect(mapStateProps, {
+  logoutUser,
+  clearProfileOnLogout,
+  getCurrentProfile,
+})(Navbar);

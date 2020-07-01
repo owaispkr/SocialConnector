@@ -24,12 +24,15 @@ import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/create-profile/EditProfile";
+import ProfileHandle from "./components/profile/ProfileHandle";
 
 // IMPORTING PRIVATE ROUTES
 import PrivateRoute from "./components/common/PrivateRoute";
 
 import "./App.css";
-
+const mainStyle = {
+  boxShadow: "inset 0 0 0rem 0 rgba(0,0,0,.075)",
+};
 // CHECK FOR TOKEN
 
 if (localStorage.jwtToken) {
@@ -61,28 +64,46 @@ function App() {
     <Provider store={store}>
       <Router>
         <div className="App">
-          <Navbar />
-          <Route exact path="/" component={Landing} />
-          <div className="container">
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/login" component={Login} />
-            <Switch>
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
-            </Switch>
-            <Switch>
-              <PrivateRoute
-                exact
-                path="/create-profile"
-                component={CreateProfile}
-              />
-            </Switch>
-            <Switch>
-              <PrivateRoute
-                exact
-                path="/edit-profile"
-                component={EditProfile}
-              />
-            </Switch>
+          <div className="main-content">
+            <Navbar />
+            <Route exact path="/" component={Landing} />
+            <div className="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+              <div className="container-fluid">
+                <div className="header-body">
+                  {" "}
+                  <Route exact path="/register" component={Register} />
+                  <Route exact path="/login" component={Login} />
+                  <Switch>
+                    <PrivateRoute
+                      exact
+                      path="/dashboard"
+                      component={Dashboard}
+                    />
+                  </Switch>
+                  <Switch>
+                    <PrivateRoute
+                      exact
+                      path="/create-profile"
+                      component={CreateProfile}
+                    />
+                  </Switch>
+                  <Switch>
+                    <PrivateRoute
+                      exact
+                      path="/edit-profile"
+                      component={EditProfile}
+                    />
+                  </Switch>
+                  <Switch>
+                    <PrivateRoute
+                      exact
+                      path="/profile/:handle"
+                      component={ProfileHandle}
+                    />
+                  </Switch>
+                </div>
+              </div>
+            </div>
           </div>
           <Footer />
         </div>

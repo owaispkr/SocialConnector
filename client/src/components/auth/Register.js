@@ -53,53 +53,58 @@ class Register extends Component {
     const error = this.state.error;
 
     return (
-      <div className="register">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Sign Up</h1>
-              <p className="lead text-center">
-                Create your DevConnector account
-              </p>
-              <form noValidate onSubmit={this.onSubmit}>
-                <TextFieldGroup
-                  type="name"
-                  placeholder="Enter Name"
-                  name="name"
-                  value={this.state.name}
-                  onChange={this.onChange}
-                  error={error.name}
-                />
+      <div className="container-fluid p-0">
+        <div className="row">
+          <div className="col-md-6 m-auto">
+            <div className="card">
+              <div className="card-header text-center">
+                <h1 className="display-4 text-center">Sign Up</h1>
+                <p className="lead ">Create your DevConnector account</p>
+              </div>
+              <div className="card-body">
+                <form noValidate onSubmit={this.onSubmit}>
+                  <TextFieldGroup
+                    type="name"
+                    placeholder="Enter Name"
+                    name="name"
+                    value={this.state.name}
+                    onChange={this.onChange}
+                    error={error.name}
+                  />
 
-                <TextFieldGroup
-                  type="email"
-                  placeholder="Email Address"
-                  name="email"
-                  value={this.state.email}
-                  onChange={this.onChange}
-                  error={error.email}
-                />
+                  <TextFieldGroup
+                    type="email"
+                    placeholder="Email Address"
+                    name="email"
+                    value={this.state.email}
+                    onChange={this.onChange}
+                    error={error.email}
+                  />
 
-                <TextFieldGroup
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  value={this.state.password}
-                  onChange={this.onChange}
-                  error={error.password}
-                />
+                  <TextFieldGroup
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                    value={this.state.password}
+                    onChange={this.onChange}
+                    error={error.password}
+                  />
 
-                <TextFieldGroup
-                  type="Password"
-                  placeholder="Confirm Password"
-                  name="confirmPassword"
-                  value={this.state.confirmPassword}
-                  onChange={this.onChange}
-                  error={error.confirmPassword}
-                />
+                  <TextFieldGroup
+                    type="Password"
+                    placeholder="Confirm Password"
+                    name="confirmPassword"
+                    value={this.state.confirmPassword}
+                    onChange={this.onChange}
+                    error={error.confirmPassword}
+                  />
 
-                <input type="submit" className="btn btn-info btn-block mt-4" />
-              </form>
+                  <input
+                    type="submit"
+                    className="btn btn-info btn-block mt-4"
+                  />
+                </form>
+              </div>
             </div>
           </div>
         </div>

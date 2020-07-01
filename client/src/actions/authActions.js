@@ -21,6 +21,8 @@ export const registerUser = (userData, history) => (dispatch) => {
 
       // Set Current User
       dispatch(setCurrentUser(decode));
+      localStorage.setItem("userAvatar", decode.avatar);
+      localStorage.setItem("userName", decode.name);
 
       // REDIRECT TO DASHBOARD
       history.push("/dashboard");
@@ -47,6 +49,8 @@ export const loginUser = (userData) => (dispatch) => {
 
       // Decode Token to get user Data
       const decode = jwt_decode(token);
+      localStorage.setItem("userAvatar", decode.avatar);
+      localStorage.setItem("userName", decode.name);
 
       // Set Current User
       dispatch(setCurrentUser(decode));

@@ -8,11 +8,10 @@ import React from "react";
 
 export default () => {
   return (
-    <footer
-      // style={footerStyle}
-      className="bg-dark text-white mt-5 p-4 text-center"
-    >
-      Copyright &copy; {new Date().getFullYear()} Social Connector
+    <footer className="footer">
+      <div className="copyright text-center text-muted">
+        Copyright &copy; {new Date().getFullYear()} Social Connector
+      </div>
     </footer>
   );
 };

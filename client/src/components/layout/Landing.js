@@ -12,16 +12,16 @@ class Landing extends Component {
 
   render() {
     return (
-      <div className="landing">
+      <main className="landing">
         <div className="dark-overlay landing-inner text-light">
           <div className="container">
             <div className="row">
               <div className="col-md-12 text-center">
-                <h1 className="display-3 mb-4">Social Developer Connector</h1>
+                <h1 className="display-3 mb-4 text-light">Social Connector</h1>
                 <p className="lead">
                   {" "}
-                  Create a developer profile/portfolio, share posts and get help
-                  from other developers
+                  Create your profile/portfolio, share posts and get help from
+                  others
                 </p>
                 <hr />
                 <Link to="/register" className="btn btn-lg btn-info mr-2">
@@ -34,7 +34,7 @@ class Landing extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     );
   }
 }

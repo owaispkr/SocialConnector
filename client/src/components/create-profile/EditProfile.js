@@ -127,8 +127,13 @@ class EditProfile extends Component {
     // SELECT OPTIONS FOR STATUS
     const options = [
       { label: "* Select Professional Status", value: 0 },
-      { label: "Developer", value: 1 },
-      { label: "Senior Developer", value: 2 },
+      { label: "Lead Developer", value: "Lead Developer" },
+      { label: "Senior Developer", value: "Senior Developer" },
+      { label: "Database Administrator", value: "Database Administrator" },
+      {
+        label: "Full Stack .NET Developer",
+        value: "Full Stack .NET Developer",
+      },
     ];
 
     // ENABLING SOCIALS LINKS
